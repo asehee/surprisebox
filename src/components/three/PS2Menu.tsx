@@ -18,45 +18,40 @@ export default function PS2Menu() {
     {
       id: 1,
       title: "Random",
-      gifUrl:
-        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/randommm-freddyuniverse-BeAcDv9Sj0pSSEOFhnB2FKuHYzIJnP.gif",
+      gifUrl: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/randommm-freddyuniverse-BeAcDv9Sj0pSSEOFhnB2FKuHYzIJnP.gif",
     },
     {
       id: 2,
       title: "Pics",
-      gifUrl:
-        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/PhotoGallery-freddyuniverse-ZnICokrYxtfEURdHBqOE37pmqgKdUz.gif",
+      gifUrl: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/PhotoGallery-freddyuniverse-ZnICokrYxtfEURdHBqOE37pmqgKdUz.gif",
     },
     {
       id: 3,
       title: "Support",
-      gifUrl:
-        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/money-freddyuniverse-uCdh0N8ivWucFPJNYBBonCyld2zWkr.gif",
+      gifUrl: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/money-freddyuniverse-uCdh0N8ivWucFPJNYBBonCyld2zWkr.gif",
     },
     {
       id: 4,
       title: "Burn Book",
-      gifUrl:
-        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/burnbook-freddyuniverse-DWcG5CtXVnjaSo8TcHsTE2DKOn1eBs.gif",
+      gifUrl: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/burnbook-freddyuniverse-DWcG5CtXVnjaSo8TcHsTE2DKOn1eBs.gif",
     },
     {
       id: 5,
       title: "Brain Games",
-      gifUrl:
-        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/braingames-freddyuniverse-ZwlXB3hvH6rz38LKLTiCVRpdLP1EbH.gif",
+      gifUrl: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/braingames-freddyuniverse-ZwlXB3hvH6rz38LKLTiCVRpdLP1EbH.gif",
     },
     {
       id: 6,
       title: "About Me",
-      gifUrl:
-        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/aboutme-freddyuniverse-NcbYrvtwIgA2kBNopkqqOccKXMe2QK.gif",
+      gifUrl: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/aboutme-freddyuniverse-NcbYrvtwIgA2kBNopkqqOccKXMe2QK.gif",
     },
   ])
   return (
     <div className="min-h-screen w-full bg-gradient-to-b from-zinc-500 to-zinc-600 p-8">
-      <div className="container mx-auto max-w-5xl">
+      {/* max-w-5xl 대신 max-w-4xl을 사용하여 컨텐츠 영역을 좀 더 좁게 만듭니다 */}
+      <div className="h-full flex flex-col mx-auto max-w-4xl">
         {/* Header */}
-        <div className="flex items-center justify-between mb-12">
+        <div className="flex items-center justify-between mb-16">
           <div className="flex items-center gap-4">
             <div className="h-12 w-12 bg-zinc-900 rounded-sm" />
             <div className="text-white">
@@ -69,23 +64,25 @@ export default function PS2Menu() {
           </div>
         </div>
 
-        {/* Grid Container */}
-        <div 
-          className="grid grid-cols-3 gap-8 w-full" 
-          style={{ 
-            display: 'grid',
-            gridTemplateColumns: 'repeat(3, minmax(0, 1fr))'
-          }}
-        >
-          {items.map((item) => (
-            <div key={item.id} className="w-full aspect-video">
-              <DraggableBox item={item} />
-            </div>
-          ))}
+        {/* Grid Container - flex-1을 사용하여 남은 공간을 차지하도록 합니다 */}
+        <div className="flex-1 flex items-center justify-center mb-16">
+          <div 
+            className="grid grid-cols-3 gap-8" 
+            style={{ 
+              display: 'grid',
+              gridTemplateColumns: 'repeat(3, minmax(0, 200px))', // 각 아이템의 최대 너비 제한
+            }}
+          >
+            {items.map((item) => (
+              <div key={item.id} className="aspect-[4/3]"> {/* 4:3 비율로 수정 */}
+                <DraggableBox item={item} />
+              </div>
+            ))}
+          </div>
         </div>
 
-        {/* Footer */}
-        <div className="flex justify-center gap-16 text-white ps2-text mt-12">
+        {/* Footer - 하단에 고정되도록 수정 */}
+        <div className="flex justify-center items-center space-x-16 text-white ps2-text">
           <div className="flex items-center gap-3">
             <div className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-white/80 text-lg">×</div>
             <span>Enter</span>
@@ -103,8 +100,6 @@ export default function PS2Menu() {
     </div>
   )
 }
-
-
 function DraggableBox({ item }: { item: MenuItem }) {
   const [isDragging, setIsDragging] = useState(false)
   const [position, setPosition] = useState<Position>({ x: 0, y: 0 })
@@ -148,27 +143,14 @@ function DraggableBox({ item }: { item: MenuItem }) {
       }}
       onMouseDown={handleMouseDown}
     >
-      <div className="relative w-full h-full rounded-xl overflow-hidden bg-gradient-to-b from-zinc-800 to-zinc-900 shadow-xl">
-        {/* 상단 하이라이트 효과 */}
-        <div className="absolute inset-0 bg-gradient-to-b from-white/10 to-transparent" />
-        
-        {/* 측면 하이라이트 효과 */}
-        <div className="absolute inset-0 bg-gradient-to-r from-black/20 via-transparent to-black/20" />
-        
-        {/* 이미지 컨테이너 */}
-        <div className="absolute inset-0 p-4 flex items-center justify-center">
-          <img
-            src={item.gifUrl}
-            alt={item.title}
-            className="w-full h-full object-contain"
-          />
-        </div>
-        
-        {/* 제목 영역 */}
-        <div className="absolute bottom-0 left-0 right-0 bg-black/90 backdrop-blur-sm">
-          <div className="py-2 text-center text-sm text-white border-t border-white/10 ps2-text">
-            {item.title}
-          </div>
+      <div className="relative w-full h-full rounded-lg overflow-hidden bg-gradient-to-b from-zinc-700 to-zinc-800 shadow-lg">
+        <img
+          src={item.gifUrl}
+          alt={item.title}
+          className="absolute inset-0 w-full h-full object-contain p-4"
+        />
+        <div className="absolute bottom-0 left-0 right-0 bg-black/80 py-2 text-center text-sm text-white border-t border-white/10 ps2-text">
+          {item.title}
         </div>
       </div>
     </div>
